@@ -887,8 +887,7 @@
           <h3 id="brief-title">Apa yang ingin Anda kembangkan?</h3>
 
           <p class="form-description" id="brief-disclaimer">
-            Alat ini hanya menyusun teks di browser.
-            Isian tidak dikirim ke server atau Instagram.
+            Isian form ini akan langsung diteruskan ke WhatsApp Admin resmi PT ERZ Grup Indonesia sesuai jalur kemitraan yang Anda pilih.
           </p>
 
           <div class="form-row">
@@ -939,8 +938,8 @@
             ></textarea>
           </label>
 
-          <button class="button button-primary form-submit" type="submit">
-            Buat brief konsultasi
+          <button class="button button-primary form-submit" id="submit-brief-btn" type="submit">
+            Buat brief &amp; kirim ke WhatsApp
             <span aria-hidden="true">→</span>
           </button>
 
@@ -953,6 +952,19 @@
             </label>
 
             <div class="brief-actions">
+              <a
+                class="button button-primary"
+                id="wa-send-brief-btn"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Chat WhatsApp Admin
+                <svg class="button-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+
               <button
                 class="button button-outline"
                 id="copy-brief"
@@ -961,24 +973,10 @@
                 Salin brief
                 <span aria-hidden="true">⧉</span>
               </button>
-
-              <a
-                class="button button-primary"
-                href="https://www.instagram.com/pt.erzgrupindonesia/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Buka Instagram
-                <svg class="button-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </a>
             </div>
 
-            <p class="form-description">
-              Brief belum terkirim. Salin teks di atas,
-              buka profil Instagram ERZ, lalu tempelkan
-              ke percakapan yang Anda mulai.
+            <p class="form-description" id="brief-result-help">
+              Jika chat WhatsApp tidak terbuka otomatis, silakan klik tombol "Chat WhatsApp Admin" di atas.
             </p>
           </div>
         </form>

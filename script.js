@@ -367,17 +367,70 @@ function buildBrief() {
   return lines.join("\n");
 }
 
+const WA_TARGETS = {
+  makloon: {
+    phone: "6282319907971",
+    name: "Admin 1 (Makloon & Formulasi)",
+    tag: "WA_Admin1_Makloon"
+  },
+  kemitraan: {
+    phone: "6282319907972",
+    name: "Admin 2 (Kemitraan & Distributor)",
+    tag: "WA_Admin2_Kemitraan"
+  },
+  pemesanan: {
+    phone: "6282319907974",
+    name: "Admin 3 (Pemesanan & Rekomendasi)",
+    tag: "WA_Admin3_Pemesanan"
+  }
+};
+
+function getTargetAdmin(partnership) {
+  switch (partnership) {
+    case "Makloon / Private Label":
+      return WA_TARGETS.makloon;
+    case "Reseller":
+    case "Distributor":
+      return WA_TARGETS.kemitraan;
+    case "Butuh rekomendasi":
+    default:
+      return WA_TARGETS.pemesanan;
+  }
+}
+
 briefForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
   if (!briefForm.reportValidity()) return;
 
-  briefOutput.value = buildBrief();
+  const briefText = buildBrief();
+  const partnership = partnershipSelect.value;
+  const admin = getTargetAdmin(partnership);
+
+  briefOutput.value = briefText;
   briefResult.hidden = false;
 
+  const waUrl = `https://wa.me/${admin.phone}?text=${encodeURIComponent(briefText)}`;
+
+  const waSendBriefBtn = document.getElementById("wa-send-brief-btn");
+  if (waSendBriefBtn) {
+    waSendBriefBtn.href = waUrl;
+    waSendBriefBtn.setAttribute("data-track-meta", `Brief_${admin.tag}`);
+  }
+
+  // Kirim event konversi ke Meta Pixel
+  if (typeof fbq === "function") {
+    fbq("track", "Lead", { content_name: `Brief - ${admin.name}` });
+    fbq("track", "Contact", { content_name: `Brief - ${admin.name}` });
+    fbq("trackCustom", `SubmitBrief_${admin.tag}`);
+  }
+
+  // Buka WhatsApp tujuan di tab baru secara otomatis
+  window.open(waUrl, "_blank");
+
   contactStatus.textContent =
-    "Brief berhasil dibuat dan belum dikirim. " +
-    "Salin teksnya, lalu lanjutkan percakapan melalui Instagram ERZ.";
+    `Mengarahkan ke WhatsApp ${admin.name}... ` +
+    `Jika chat tidak terbuka otomatis, silakan klik tombol "Chat WhatsApp Admin" di bawah.`;
 
   briefOutput.focus({ preventScroll: true });
 
@@ -428,9 +481,7 @@ copyBriefButton.addEventListener("click", async () => {
     await navigator.clipboard.writeText(text);
 
     contactStatus.textContent =
-      "Brief berhasil disalin. Buka Instagram ERZ dan " +
-      "tempelkan ke percakapan yang Anda mulai. " +
-      "Pesan belum dikirim otomatis.";
+      "Brief berhasil disalin. Anda dapat langsung menempelkannya (paste) ke WhatsApp Admin ERZ.";
   } catch {
     selectBriefForManualCopy();
   } finally {
