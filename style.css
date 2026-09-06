@@ -189,6 +189,15 @@ h2 em {
   line-height: 1;
 }
 
+.button-arrow {
+  flex-shrink: 0;
+  transition: transform var(--transition);
+}
+
+.button:hover .button-arrow {
+  transform: translateX(4px);
+}
+
 .button-primary {
   background: var(--forest);
   color: white;
@@ -244,6 +253,15 @@ h2 em {
   transform: translateX(3px);
 }
 
+.text-link-arrow {
+  flex-shrink: 0;
+  transition: transform var(--transition);
+}
+
+.text-link:hover .text-link-arrow {
+  transform: translateX(4px);
+}
+
 .section-heading {
   display: flex;
   align-items: flex-end;
@@ -295,13 +313,17 @@ h2 em {
 .announcement-inner a {
   display: inline-flex;
   align-items: center;
-  gap: 14px;
+  gap: 8px;
   letter-spacing: 0.2px;
 }
 
-.announcement-inner a:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
+.announcement-arrow {
+  flex-shrink: 0;
+  transition: transform var(--transition);
+}
+
+.announcement-inner a:hover .announcement-arrow {
+  transform: translateX(3px);
 }
 
 .site-header {
@@ -411,22 +433,29 @@ h2 em {
 .header-contact {
   display: inline-flex;
   align-items: center;
-  gap: 18px;
+  gap: 14px;
   min-height: 44px;
   padding: 10px 16px;
   border: 1px solid #bec7b5;
   border-radius: 4px;
   font-size: 11px;
   font-weight: 600;
-  transition: background var(--transition);
+  transition: background var(--transition), border-color var(--transition);
 }
 
 .header-contact:hover {
   background: var(--sage);
 }
 
-.header-contact > span {
-  font-size: 18px;
+.header-contact-arrow {
+  display: inline-block;
+  flex-shrink: 0;
+  color: currentColor;
+  transition: transform var(--transition);
+}
+
+.header-contact:hover .header-contact-arrow {
+  transform: translateX(4px);
 }
 
 .menu-toggle {
@@ -491,6 +520,17 @@ h2 em {
   padding-block: 13px;
   border-bottom: 1px solid var(--line);
   font-size: 13px;
+}
+
+.mobile-nav-arrow {
+  flex-shrink: 0;
+  color: var(--muted);
+  transition: transform var(--transition), color var(--transition);
+}
+
+.mobile-nav a:hover .mobile-nav-arrow {
+  transform: translateX(4px);
+  color: var(--forest);
 }
 
 /* =========================================================
@@ -1542,6 +1582,12 @@ details[open] .faq-icon::after {
   line-height: 1.2;
 }
 
+.contact-help-icon {
+  flex-shrink: 0;
+  color: var(--lime);
+  margin-top: 2px;
+}
+
 .contact-help p {
   color: #bdcbb4;
   font-size: 12px;
@@ -1822,9 +1868,15 @@ details[open] .faq-icon::after {
 }
 
 .footer-social-arrow {
-  font-size: 12px;
   opacity: 0.55;
   margin-left: 2px;
+  flex-shrink: 0;
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+.footer-social-item:hover .footer-social-arrow {
+  opacity: 1;
+  transform: translateX(3px);
 }
 
 .footer-contact > p {
@@ -2073,13 +2125,12 @@ details[open] .faq-icon::after {
 
 .wa-contact-arrow {
   color: #a0ab9c;
-  font-size: 14px;
-  font-weight: 700;
+  flex-shrink: 0;
   transition: transform var(--transition), color var(--transition);
 }
 
 .wa-contact-item:hover .wa-contact-arrow {
-  transform: translateX(3px);
+  transform: translateX(4px);
   color: #25d366;
 }
 
@@ -2101,9 +2152,18 @@ details[open] .faq-icon::after {
   transition: color var(--transition);
 }
 
+.wa-linktree-link svg {
+  flex-shrink: 0;
+  transition: transform var(--transition);
+}
+
 .wa-linktree-link:hover {
   color: #1b5e3a;
   text-decoration: underline;
+}
+
+.wa-linktree-link:hover svg {
+  transform: translateX(3px);
 }
 
 /* TRIGGER BUTTON & BUBBLE */
