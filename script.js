@@ -568,3 +568,36 @@ document.addEventListener("keydown", (e) => {
     if (waToggleBtn) waToggleBtn.focus({ preventScroll: true });
   }
 });
+
+/* =========================================================
+   META PIXEL TRACKING UNTUK WHATSAPP & CTA
+========================================================= */
+
+// Tombol CTA Konsultasi di Section Buka Pop-up WhatsApp
+const ctaWaKonsultasiBtn = document.getElementById("cta-wa-konsultasi-btn");
+if (ctaWaKonsultasiBtn) {
+  ctaWaKonsultasiBtn.addEventListener("click", () => {
+    openWaPopup();
+    if (typeof fbq === "function") {
+      fbq("trackCustom", "ClickCTA_Konsultasi");
+    }
+  });
+}
+
+// Pelacak Otomatis Semua Klik WhatsApp (Meta Pixel Event)
+document.addEventListener("click", (e) => {
+  const waLink = e.target.closest('a[href*="wa.me"]');
+  if (waLink) {
+    const metaTag = waLink.getAttribute("data-track-meta") || "WA_Direct_Click";
+    
+    // Kirim event ke Meta Pixel
+    if (typeof fbq === "function") {
+      // 1. Standard Event (Contact & Lead untuk iklan FB/IG Ads)
+      fbq("track", "Contact", { content_name: metaTag });
+      fbq("track", "Lead", { content_name: metaTag });
+
+      // 2. Custom Event spesifik per admin
+      fbq("trackCustom", metaTag);
+    }
+  }
+});

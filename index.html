@@ -16,6 +16,24 @@
 
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
+
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1457361812861564');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1457361812861564&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
 </head>
 
 <body>
@@ -809,17 +827,32 @@
             kepada tim PT ERZ Grup Indonesia.
           </p>
 
-          <a
-            class="button button-lime"
-            href="https://www.instagram.com/pt.erzgrupindonesia/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Kunjungi Instagram ERZ
-            <svg class="button-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </a>
+          <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 16px;">
+            <button
+              class="button button-primary"
+              id="cta-wa-konsultasi-btn"
+              type="button"
+              data-track-meta="CTA_WA_Konsultasi"
+            >
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" style="margin-right: 4px;">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.311.045-.698.065-2.222-.562-1.821-.75-2.996-2.607-3.087-2.727-.091-.121-.735-.978-.735-1.865 0-.887.465-1.324.63-1.505.165-.181.36-.226.48-.226.121 0 .241.001.345.006.11.005.258-.042.404.308.15.36.51 1.246.555 1.337.045.09.075.196.015.316-.06.12-.09.195-.18.301-.09.105-.19.235-.27.315-.09.091-.184.189-.079.37.105.18.468.772 1.005 1.25.692.617 1.276.808 1.457.898.18.09.286.076.39-.045.106-.12.451-.526.572-.706.12-.181.241-.151.406-.09.166.06 1.052.496 1.233.586.18.09.301.135.346.21.045.075.045.436-.099.841zm-3.392-12.416c-5.514 0-10 4.486-10 10 0 1.76.459 3.473 1.333 4.99l-1.422 5.195 5.344-1.402c1.47.807 3.125 1.237 4.745 1.237 5.514 0 10-4.486 10-10s-4.486-10-10-10zm0 18.25c-1.535 0-3.04-.413-4.35-1.196l-.312-.186-3.232.848.863-3.15-.204-.325c-.86-1.368-1.314-2.955-1.314-4.591 0-4.549 3.701-8.25 8.25-8.25 4.548 0 8.25 3.701 8.25 8.25 0 4.548-3.702 8.25-8.25 8.25z"/>
+              </svg>
+              <span>Hubungi via WhatsApp</span>
+            </button>
+
+            <a
+              class="button button-lime"
+              href="https://www.instagram.com/pt.erzgrupindonesia/"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-track-meta="CTA_Instagram"
+            >
+              Kunjungi Instagram ERZ
+              <svg class="button-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+          </div>
 
           <a
             class="contact-account"
@@ -1097,6 +1130,7 @@
           target="_blank"
           rel="noopener noreferrer"
           class="wa-contact-item"
+          data-track-meta="WA_Admin1_Makloon"
         >
           <div class="wa-contact-icon">
             <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
@@ -1118,6 +1152,7 @@
           target="_blank"
           rel="noopener noreferrer"
           class="wa-contact-item"
+          data-track-meta="WA_Admin2_Kemitraan"
         >
           <div class="wa-contact-icon">
             <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
@@ -1139,6 +1174,7 @@
           target="_blank"
           rel="noopener noreferrer"
           class="wa-contact-item"
+          data-track-meta="WA_Admin3_Pemesanan"
         >
           <div class="wa-contact-icon">
             <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
