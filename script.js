@@ -27,12 +27,7 @@ const categorySelect = document.getElementById("category-select");
 const productInput = document.getElementById("product-interest");
 const notesInput = document.getElementById("business-notes");
 
-const briefResult = document.getElementById("brief-result");
-const briefOutput = document.getElementById("brief-output");
-const copyBriefButton = document.getElementById("copy-brief");
 const contactStatus = document.getElementById("contact-status");
-
-const backToTop = document.getElementById("back-to-top");
 
 const desktopBreakpoint = window.matchMedia("(min-width: 901px)");
 const reducedMotion = window.matchMedia(
@@ -311,26 +306,42 @@ function getClosingMessage(partnership) {
         "waktu pengerjaan."
       );
 
+    case "Distributor & Reseller":
     case "Reseller":
-      return (
-        "Saya tertarik menjadi reseller produk ERZ. " +
-        "Mohon informasi katalog produk, harga reseller, " +
-        "minimum pembelian, dan ketentuan kerja samanya."
-      );
-
     case "Distributor":
       return (
-        "Saya tertarik membahas peluang distributor produk ERZ. " +
-        "Mohon informasi skema kerja sama, ketentuan pembelian, " +
-        "dan pembahasan wilayah distribusi."
+        "Saya tertarik bergabung dalam program kemitraan Distributor & Reseller produk ERZ. " +
+        "Mohon informasi katalog produk lengkap, skema harga grosir mitra, " +
+        "ketentuan pembelian, dan ketersediaan wilayah."
+      );
+
+    case "Beli Satuan / Eceran":
+      return (
+        "Saya tertarik untuk membeli satuan produk ERZ. " +
+        "Mohon informasi ketersediaan stok, harga satuan, dan estimasi ongkos kirim ke alamat saya."
       );
 
     default:
       return (
-        "Saya ingin mendapatkan rekomendasi jalur kemitraan " +
-        "yang sesuai dengan rencana usaha saya. " +
+        "Saya ingin berkonsultasi mengenai produk dan peluang kemitraan " +
+        "yang sesuai dengan kebutuhan saya. " +
         "Mohon arahan mengenai langkah awal konsultasi."
       );
+  }
+}
+
+function getGreeting(partnership) {
+  switch (partnership) {
+    case "Makloon / Private Label":
+      return "Halo Naufal,";
+    case "Distributor & Reseller":
+    case "Reseller":
+    case "Distributor":
+      return "Halo Aldi,";
+    case "Beli Satuan / Eceran":
+      return "Halo Wanda,";
+    default:
+      return "Halo tim PT ERZ Grup Indonesia,";
   }
 }
 
@@ -341,7 +352,7 @@ function buildBrief() {
   const notes = notesInput.value.trim();
 
   const lines = [
-    "Halo tim PT ERZ Grup Indonesia,",
+    getGreeting(partnership),
     "",
     "Saya ingin berkonsultasi mengenai peluang kerja sama.",
     "",
@@ -369,19 +380,19 @@ function buildBrief() {
 
 const WA_TARGETS = {
   makloon: {
-    phone: "6282319907971",
-    name: "Admin 1 (Makloon & Formulasi)",
-    tag: "WA_Admin1_Makloon"
+    phone: "6282319907974",
+    name: "Naufal (Makloon & Formulasi)",
+    tag: "WA_Naufal_Makloon"
   },
   kemitraan: {
-    phone: "6282319907972",
-    name: "Admin 2 (Kemitraan & Distributor)",
-    tag: "WA_Admin2_Kemitraan"
+    phone: "6282319907971",
+    name: "Aldi (Distributor & Reseller)",
+    tag: "WA_Aldi_Distributor"
   },
   pemesanan: {
-    phone: "6282319907974",
-    name: "Admin 3 (Pemesanan & Rekomendasi)",
-    tag: "WA_Admin3_Pemesanan"
+    phone: "6282319907972",
+    name: "Wanda (Beli Satuan & Sampel)",
+    tag: "WA_Wanda_BeliSatuan"
   }
 };
 
@@ -389,10 +400,11 @@ function getTargetAdmin(partnership) {
   switch (partnership) {
     case "Makloon / Private Label":
       return WA_TARGETS.makloon;
+    case "Distributor & Reseller":
     case "Reseller":
     case "Distributor":
       return WA_TARGETS.kemitraan;
-    case "Butuh rekomendasi":
+    case "Beli Satuan / Eceran":
     default:
       return WA_TARGETS.pemesanan;
   }
@@ -407,16 +419,7 @@ briefForm.addEventListener("submit", (event) => {
   const partnership = partnershipSelect.value;
   const admin = getTargetAdmin(partnership);
 
-  briefOutput.value = briefText;
-  briefResult.hidden = false;
-
   const waUrl = `https://wa.me/${admin.phone}?text=${encodeURIComponent(briefText)}`;
-
-  const waSendBriefBtn = document.getElementById("wa-send-brief-btn");
-  if (waSendBriefBtn) {
-    waSendBriefBtn.href = waUrl;
-    waSendBriefBtn.setAttribute("data-track-meta", `Brief_${admin.tag}`);
-  }
 
   // Kirim event konversi ke Meta Pixel
   if (typeof fbq === "function") {
@@ -425,80 +428,64 @@ briefForm.addEventListener("submit", (event) => {
     fbq("trackCustom", `SubmitBrief_${admin.tag}`);
   }
 
-  // Buka WhatsApp tujuan di tab baru secara otomatis
+  // Buka WhatsApp tujuan di tab baru secara langsung dan otomatis
   window.open(waUrl, "_blank");
-
-  contactStatus.textContent =
-    `Mengarahkan ke WhatsApp ${admin.name}... ` +
-    `Jika chat tidak terbuka otomatis, silakan klik tombol "Chat WhatsApp Admin" di bawah.`;
-
-  briefOutput.focus({ preventScroll: true });
-
-  briefResult.scrollIntoView({
-    behavior: reducedMotion.matches ? "auto" : "smooth",
-    block: "nearest"
-  });
 });
 
 /* =========================================================
-   COPY BRIEF
-
-   Clipboard API biasanya memerlukan HTTPS atau localhost.
-   Jika tidak tersedia, teks dipilih untuk disalin manual.
+   HEADER SCROLL & ACTIVE NAV (SCROLLSPY)
 ========================================================= */
 
-function selectBriefForManualCopy() {
-  briefOutput.focus();
-  briefOutput.select();
-  briefOutput.setSelectionRange(0, briefOutput.value.length);
-
-  contactStatus.textContent =
-    "Salin otomatis tidak tersedia. Teks sudah dipilih. " +
-    "Gunakan Ctrl+C, Cmd+C, atau pilih Salin pada perangkat Anda.";
-}
-
-copyBriefButton.addEventListener("click", async () => {
-  const text = briefOutput.value.trim();
-
-  if (!text) {
-    contactStatus.textContent =
-      "Buat brief terlebih dahulu sebelum menyalin.";
-    return;
-  }
-
-  copyBriefButton.disabled = true;
-
-  try {
-    if (
-      !window.isSecureContext ||
-      !navigator.clipboard ||
-      typeof navigator.clipboard.writeText !== "function"
-    ) {
-      selectBriefForManualCopy();
-      return;
-    }
-
-    await navigator.clipboard.writeText(text);
-
-    contactStatus.textContent =
-      "Brief berhasil disalin. Anda dapat langsung menempelkannya (paste) ke WhatsApp Admin ERZ.";
-  } catch {
-    selectBriefForManualCopy();
-  } finally {
-    copyBriefButton.disabled = false;
-  }
-});
-
-/* =========================================================
-   HEADER & BACK TO TOP
-========================================================= */
+const navLinks = document.querySelectorAll(
+  ".desktop-nav a[href^='#'], .mobile-nav a[href^='#']"
+);
+const trackedSectionIds = ["tentang", "layanan", "produk", "kemitraan", "faq"];
+const trackedSections = trackedSectionIds
+  .map((id) => document.getElementById(id))
+  .filter(Boolean);
 
 function updateScrollUI() {
   const scrollPosition = window.scrollY;
 
   header.classList.toggle("is-scrolled", scrollPosition > 12);
-  backToTop.hidden = scrollPosition < 650;
 }
+
+function updateActiveNavLink() {
+  const scrollY = window.scrollY;
+  const headerHeight = header ? header.offsetHeight : 70;
+  const scrollThreshold = scrollY + headerHeight + 80;
+
+  let activeSectionId = "";
+
+  for (let i = trackedSections.length - 1; i >= 0; i--) {
+    const section = trackedSections[i];
+    if (section.offsetTop <= scrollThreshold) {
+      activeSectionId = section.id;
+      break;
+    }
+  }
+
+  navLinks.forEach((link) => {
+    const targetId = link.getAttribute("href").replace("#", "");
+    const isActive = targetId && targetId === activeSectionId;
+    link.classList.toggle("is-active", isActive);
+    if (isActive) {
+      link.setAttribute("aria-current", "true");
+    } else {
+      link.removeAttribute("aria-current");
+    }
+  });
+}
+
+navLinks.forEach((link) => {
+  link.addEventListener("click", () => {
+    const targetId = link.getAttribute("href").replace("#", "");
+    navLinks.forEach((l) => {
+      const match = l.getAttribute("href").replace("#", "") === targetId;
+      l.classList.toggle("is-active", match);
+    });
+  });
+});
 
 let scrollFramePending = false;
 
@@ -511,21 +498,12 @@ window.addEventListener(
 
     window.requestAnimationFrame(() => {
       updateScrollUI();
+      updateActiveNavLink();
       scrollFramePending = false;
     });
   },
   { passive: true }
 );
-
-backToTop.addEventListener("click", () => {
-  // Fokus dipindahkan sebelum tombol kembali disembunyikan.
-  headerBrand.focus({ preventScroll: true });
-
-  window.scrollTo({
-    top: 0,
-    behavior: reducedMotion.matches ? "auto" : "smooth"
-  });
-});
 
 /* =========================================================
    INITIALIZATION
@@ -547,6 +525,7 @@ paginationNav.hidden = false;
 briefForm.hidden = false;
 
 updateScrollUI();
+updateActiveNavLink();
 
 /* =========================================================
    FLOATING WHATSAPP MULTI-CONTACT POPUP
