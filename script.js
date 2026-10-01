@@ -339,7 +339,7 @@ function getGreeting(partnership) {
     case "Distributor":
       return "Halo Aldi,";
     case "Beli Satuan / Eceran":
-      return "Halo Wanda,";
+      return "Halo Wanda.";
     default:
       return "Halo tim PT ERZ Grup Indonesia,";
   }
